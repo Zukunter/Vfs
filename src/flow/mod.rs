@@ -33,8 +33,7 @@ pub fn init() {
         Remove => modifier::remove(general_parent, &mut canonicalized_routes_iter, sholl.force),
         Cut => modifier::cut(general_parent, &mut canonicalized_routes_iter),
         Absolute => modifier::absolute(general_parent, &mut canonicalized_routes_iter),
+        Truncate => modifier::truncate(general_parent, &mut canonicalized_routes_iter),
         _ => {}
     }
 }
-
-

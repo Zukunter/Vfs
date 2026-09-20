@@ -5,6 +5,7 @@ use std::{
 use crate::modder::{
     helper,
     PROCCESSING_EXIT_CODE,
+    PARSING_EXIT_CODE,
     Target
 };
 mod file; 
@@ -43,7 +44,13 @@ where
             hardlink::create(route, next_path);
         continue ; }
 
-        let data = next_path.into_os_string();
+        let data = next_path.try_to_string()
+        .unwrap_or_bye(|bayern, os_str| {
+            bayern
+            .msgdln(f!("Could not parser the data to write in the file `{route:?}` to String"))
+            .msgdln(f!("The OsString was {os_str:?}"))
+            .exit(PARSING_EXIT_CODE);
+        });
 
         if target == Target::FileAndWrite {
             file::create(route, data, sholl_force);

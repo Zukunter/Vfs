@@ -10,11 +10,13 @@ pub enum Action {
     Trash,
     Cut,
     Absolute,
+    Truncate,
     Empty
 }
 
 const CREATE_KEY: &str = "add";
 const REMOVE_KEY: &str = "remove";
+const TRUNCATE_KEY: &str = "truncate";
 const TRASH_KEY: &str = "trash";
 const CUT_KEY: &str = "cut";
 const ABSOLUTE_KEY: &str = "absolute";
@@ -31,6 +33,7 @@ impl Action {
             CREATE_KEY => Action::Create,
             REMOVE_KEY => Action::Remove,
             TRASH_KEY => Action::Trash,
+            TRUNCATE_KEY => Action::Truncate,
             CUT_KEY => Action::Cut,
             ABSOLUTE_KEY => Action::Absolute,
             EMPTY_KEY => Action::Empty,

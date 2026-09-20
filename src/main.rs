@@ -1,7 +1,7 @@
 pub mod modder;
 
-mod init ; fn main() {
-    init::init();
+mod flow ; fn main() {
+    flow::init();
 }
 
 pub mod exit_code;

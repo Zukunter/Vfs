@@ -4,17 +4,16 @@ use ztd::{
 };
 use std::{
     path::Path,
-    ffi::OsStr, 
     io::Write
 };
 use crate::modder::{
     TOUCHING_EXIT_CODE
 };
 
-pub fn create<AsPath, AsOsStr>(file: AsPath, data: AsOsStr, sholl_force: bool) 
+pub fn create<AsPath, AsStr>(file: AsPath, data: AsStr, sholl_force: bool) 
 where 
     AsPath: AsRef<Path>,
-    AsOsStr: AsRef<OsStr>
+    AsStr: AsRef<str>
 {
     let file_ref = file.as_ref();
     let data_ref = data.as_ref();
@@ -28,7 +27,7 @@ where
         .exit(TOUCHING_EXIT_CODE)    
     });
 
-    write!(&mut file_writer, "{data_ref:?}")
+    write!(&mut file_writer, "{data_ref}")
     .unwrap_or_bye(|bayern, err| {
         let msg_err = err.to_string();
         bayern
