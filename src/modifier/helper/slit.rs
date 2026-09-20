@@ -1,8 +1,11 @@
-use crate::modder::*;
+use std::{
+    path::PathBuf,
+    fs,
+};
 
-pub fn canonicalized_routes(pre_routes: &mut Vec<String>, sholl: &Sholl) -> Vec<PathBuf> {
+pub fn canonicalized_routes(pre_routes: &mut Vec<String>, sholl_cano: bool) -> Vec<PathBuf> {
 
-    if !sholl.cano { 
+    if !sholl_cano { 
         return pre_routes.iter()
             .map(|route| PathBuf::from(route))
             .collect();

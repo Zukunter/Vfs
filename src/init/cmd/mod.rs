@@ -1,4 +1,7 @@
-use crate::modder::*;
+use ztd::kern::*;
+use crate::modder::{
+    PROCCESSING_EXIT_CODE
+};
 
 pub struct CmdLower {
     pub action: String,
@@ -11,7 +14,8 @@ impl CmdLower {
     where 
         Iter: Iterator<Item = String>
     {
-        let cmd = args.next()
+        let cmd = args
+            .next()
             .unwrap_or_bayern()
             .msgdln("No instruction was defined")
             .exit(PROCCESSING_EXIT_CODE);
@@ -19,7 +23,9 @@ impl CmdLower {
 
         let mut splited_cmd_lower= cmd_lower.split(SPLITER_KEY);
 
-        let action_lower = splited_cmd_lower.next().unwrap_or_bayern()
+        let action_lower = splited_cmd_lower
+            .next()
+            .unwrap_or_bayern()
             .msgdln("No `action` was defined")
             .exit(PROCCESSING_EXIT_CODE)
             .to_owned();

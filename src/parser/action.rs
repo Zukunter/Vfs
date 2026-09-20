@@ -1,3 +1,8 @@
+use ztd::{
+    kern::*,
+    bayern::Bayern
+};
+
 use crate::modder::*;
 pub enum Action {
     Create,
@@ -16,7 +21,10 @@ const ABSOLUTE_KEY: &str = "absolute";
 const EMPTY_KEY: &str = "empty";
 
 impl Action {
-    pub fn init<AsStr: AsRef<str>>(cmd: AsStr) -> Self {
+    pub fn init<AsStr>(cmd: AsStr) -> Self 
+    where 
+        AsStr: AsRef<str>
+    {
         let cmd_ref = cmd.as_ref();
         
         match cmd_ref {
@@ -26,9 +34,9 @@ impl Action {
             CUT_KEY => Action::Cut,
             ABSOLUTE_KEY => Action::Absolute,
             EMPTY_KEY => Action::Empty,
-            _ => bye_msg!(PROCCESSING_EXIT_CODE, 
-                "The action `{cmd_ref}` is unknown."
-            )
+            _ => Bayern::new()
+                .msgdln(f!("The action `{cmd_ref:?}` is unknown"))
+                .exit(PROCCESSING_EXIT_CODE)
         }
     }
 }

@@ -1,6 +1,12 @@
-use crate::modifier;
-use crate::modder::*;
-use std::env;
+use std::{
+    env
+};
+use crate::modder::{
+    Action::{self, *},
+    Sholl,
+    helper,
+    modifier
+};
 
 mod cmd; use cmd::CmdLower;
 
@@ -9,20 +15,24 @@ pub fn init() {
     let cmd_lower = CmdLower::init(&mut args);
     let mut routes: Vec<String> = args.collect();
 
-
     let action = Action::init(cmd_lower.action);
     let sholl = Sholl::init(cmd_lower.sholl);
 
     let mut canonicalized_routes_iter = helper::canonicalized_routes(
         &mut routes, 
-        &sholl
+        sholl.cano
     ).into_iter();
 
+    let general_parent = helper::general_parent(
+        &mut canonicalized_routes_iter, 
+        sholl.parent
+    );
+
     match action {
-        Create => modifier::create(&mut canonicalized_routes_iter, &sholl),
-        Remove => modifier::remove(&mut canonicalized_routes_iter, &sholl),
-        Cut => modifier::cut(&mut canonicalized_routes_iter, &sholl),
-        Absolute => modifier::absolute(&mut canonicalized_routes_iter, &sholl),
+        Create => modifier::create(general_parent, &mut canonicalized_routes_iter, sholl.force),
+        Remove => modifier::remove(general_parent, &mut canonicalized_routes_iter, sholl.force),
+        Cut => modifier::cut(general_parent, &mut canonicalized_routes_iter),
+        Absolute => modifier::absolute(general_parent, &mut canonicalized_routes_iter),
         _ => {}
     }
 }

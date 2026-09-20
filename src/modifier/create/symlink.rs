@@ -1,6 +1,13 @@
-use crate::modder::*;
-use std::path::Path;
-use ztd::vfs;
+use ztd::{
+    kern::*,
+    vfs
+};
+use std::{
+    path::Path
+};
+use crate::modder::{
+    TOUCHING_EXIT_CODE
+};
 
 pub fn create<AsPath1, AsPath2>(link: AsPath1, to: AsPath2) 
 where 
@@ -11,10 +18,11 @@ where
     let to_ref = to.as_ref();
 
     vfs::create_symlink_all!(link_ref, to_ref)
-    .unwrap_or_bye(|bayern, e| {
+    .unwrap_or_bye(|bayern, err| {
+        let msg_err = err.to_string();
         bayern
-            .msgdln(f!("Could no create the symlink `{link_ref:?}`, which points to `{to_ref:?}`"))
-            .msgd(f!("{e:?}"))
-            .exit(TOUCHING_EXIT_CODE)
+        .msgdln(f!("Could no create the symlink `{link_ref:?}`, which points to `{to_ref:?}`"))
+        .msgd(f!("{msg_err}"))
+        .exit(TOUCHING_EXIT_CODE)
     });
 }
